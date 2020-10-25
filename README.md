@@ -3,11 +3,12 @@
 ## <h4 style="text-align:left">  队列介绍 </h4>
 <p>基于Redis有序集合实现的Redis延迟队列，添加/删除/查找的复杂度都是 O(1)，每个队列中可存储40多亿元素。</p>
 
-#### 需要环境
-PHP>=5.4+Redis
+## <h4 style="text-align:left">  环境依赖 </h4>
+~~~
+"php": ">=5.4"
+~~~
 
-
-#### 安装教程
+## <h4>  Composer安装 </h4>
 
 ~~~
   composer require easy-delay-queue/easy-delay-queue
