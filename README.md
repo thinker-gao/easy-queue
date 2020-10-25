@@ -14,7 +14,7 @@
   composer require easy-delay-queue/easy-delay-queue
 ~~~
 
-#### 生产者
+## <h5>【A】. 快速入门->生产者 </h5>
 ~~~
 //1.加载Redis
 $redis = new Redis();
@@ -30,7 +30,7 @@ $orderId = uniqid();
 DelayQueue::add($time, $orderId);
 ~~~
 
-#### 消费者
+## <h5>【B】. 快速入门->消费者 </h5>
 ~~~
 //1.加载Redis
 $redis = new Redis();
