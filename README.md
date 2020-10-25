@@ -1,7 +1,7 @@
 <p><h4>EasyDelayQueue简单易用的PHP-Redis延迟队列</h4></p>
 
 ## <h4 style="text-align:left">  队列介绍 </h4>
-<p>基于Redis有序集合实现的Redis延迟队列，添加/删除/查找的复杂度都是 O(1)，每个队列中可存储40多亿元素。具体实现请阅读我发布的文章:<a href="https://www.gaojiufeng.cn/?id=516">机票</a></p>
+<p>基于Redis有序集合实现的Redis延迟队列，添加/删除/查找的复杂度都是 O(1)，每个队列中可存储40多亿元素。具体实现请阅读我发布的文章：<a href="https://www.gaojiufeng.cn/?id=516">直达机票</a></p>
 
 ## <h4 style="text-align:left">  环境依赖 </h4>
 ~~~
