@@ -1,4 +1,7 @@
 <?php
+namespace EasyDelayQueue;
+
+use Redis;
 
 class DelayQueue
 {

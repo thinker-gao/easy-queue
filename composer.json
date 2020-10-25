@@ -13,14 +13,15 @@
     }
   ],
   "require": {
-    "php": ">=5.4"
+    "php": ">=5.4",
+    "ext-redis": "*"
   },
   "suggest": {
     "ext-event": "For better performance. "
   },
   "autoload": {
     "psr-4": {
-      "EasyTask\\": "src/"
+      "EasyDelayQueue\\": "src/"
     }
   }
 }
