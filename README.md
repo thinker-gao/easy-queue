@@ -1,7 +1,7 @@
 # EasyDelayQueue
 
 #### 介绍
-简单易用的PHP-Reids延迟队列
+EasyDelayQueue简单易用的Redis延迟队列.基于Redis有序集合实现的Redis延迟队列,因此添加/删除/查找的复杂度都是 O(1),每个队列中可存储40多亿成员
 
 #### 软件架构
 软件架构说明
@@ -50,4 +50,8 @@ foreach ($list as $value)
     //发送消息给订单关联的用户(伪代码)
     //sendMsgToUserByOrderId($value);
 }
+~~~
+### Get参数说明
+~~~
+$e_score:大于多少
 ~~~
