@@ -1,7 +1,7 @@
 <p><h4>EasyDelayQueue简单易用的PHP-Redis延迟队列</h4></p>
 
 ## <h4 style="text-align:left">  队列介绍 </h4>
-<p>基于Redis有序集合实现的Redis延迟队列，添加/删除/查找的复杂度都是 O(1)，每个队列中可存储40多亿元素。</p>
+<p>基于Redis有序集合实现的Redis延迟队列，添加/删除/查找的复杂度都是 O(1)，每个队列中可存储40多亿元素。具体实现请阅读我发布的文章:<a href="https://www.gaojiufeng.cn/?id=516">机票</a></p>
 
 ## <h4 style="text-align:left">  环境依赖 </h4>
 ~~~
@@ -85,4 +85,9 @@ $data = [
 ];
 $res =  DelayQueue::add(time() + 30, json_encode($data));
 (2).Value中前X位存储订单Id,后X位存储唯一Id(推荐)
+~~~
+
+## <h5>【E】. Bug反馈 </h5>
+~~~
+请反馈至QQ392223903,感谢持续反馈!
 ~~~
