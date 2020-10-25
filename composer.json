@@ -1,0 +1,26 @@
+{
+  "name": "easy-delay-queue/easy-delay-queue",
+  "description": "easy-delay-queue, simple delay queue",
+  "keywords": [
+    "easy-delay-queue"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "GaoJiuFeng",
+      "email": "392223903@qq.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4"
+  },
+  "suggest": {
+    "ext-event": "For better performance. "
+  },
+  "autoload": {
+    "psr-4": {
+      "EasyTask\\": "src/"
+    }
+  }
+}
