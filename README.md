@@ -14,9 +14,7 @@
 3.  xxxx
 
 #### 生产者
-
-//创建订单加入延迟队列逻辑
-
+~~~
 //1.加载Redis
 $redis = new Redis();
 $redis->connect('127.0.0.1', 6379);
@@ -29,9 +27,10 @@ DelayQueue::$handler = $redis;
 $time = time() + 30; //下单成功30秒需要处理
 $orderId = uniqid();
 DelayQueue::add($time, $orderId);
+~~~
 
 #### 消费者
-
+~~~
 //1.加载Redis
 $redis = new Redis();
 $redis->connect('127.0.0.1', 6379);
@@ -51,3 +50,4 @@ foreach ($list as $value)
     //发送消息给订单关联的用户(伪代码)
     //sendMsgToUserByOrderId($value);
 }
+~~~
