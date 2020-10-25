@@ -52,7 +52,37 @@ foreach ($list as $value)
     //sendMsgToUserByOrderId($value);
 }
 ~~~
-### Get参数说明
+
+## <h5>【B】. 快速入门->其他操作 </h5>
 ~~~
-$e_score:大于多少
+(1).在队列中查询time<=1603597141 and time>=0 的元素(同时队列中会自动删除符合条件的元素)
+$time = 1603597141;
+$list = DelayQueue::get($time);
+
+(2).在队列中查询time<=1603597141 and time>=1603597132 的元素(同时队列中会自动删除符合条件的元素)
+$time1 = 1603597413;
+$time2 = 1603597132;
+$list = DelayQueue::get($time1, $time2);
+
+(3).在队列中查询time<=1603597141 and time>=1603597132 的元素,只返回1条(同时队列中会自动删除这条元素)
+$time1 = 1603597555;
+$time2 = 1603597132;
+$list = DelayQueue::get($time1, $time2,1);
+
+(4).在队列中查询time<=1603597141 and time>=1603597132 的元素返回10条即可,不删除队列数据,仅查看数据
+$time1 = 1603597693;
+$time2 = 1603597132;
+$list = DelayQueue::get($time1, $time2, 10, false);
+~~~
+
+## <h5>【B】. 快速入门->元素重复 </h5>
+~~~
+Redis有序集合中元素内容不得重复,上面实例中都是传递的订单Id,如果我们想投递多次相同订单Id,何如？
+(1).Value中传递唯一Id,同订单Id组合的Json形式,例如
+$data = [
+    'order_id'=>1,
+    'order_uniqid'=>uniqid()
+];
+$res =  DelayQueue::add(time() + 30, json_encode($data));
+(2).Value中前X位存储订单Id,后X位存储唯一Id(推荐)
 ~~~
