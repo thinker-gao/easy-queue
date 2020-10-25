@@ -1,17 +1,17 @@
 # EasyDelayQueue
 
-#### 介绍
+#### 类库介绍
 EasyDelayQueue简单易用的Redis延迟队列.基于Redis有序集合实现的Redis延迟队列,因此添加/删除/查找的复杂度都是 O(1),每个队列中可存储40多亿成员
 
-#### 软件架构
-软件架构说明
+#### 需要环境
+PHP>=5.4+Redis
 
 
 #### 安装教程
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+~~~
+  composer require easy-delay-queue/easy-delay-queue
+~~~
 
 #### 生产者
 ~~~
