@@ -9,13 +9,24 @@ class DelayQueue
      * name
      * @var string|null
      */
-    public static $name = null;
+    protected $name = null;
 
     /**
      * Redis_Handler
      * @var Redis|null
      */
-    public static $handler = null;
+    protected $handler = null;
+
+    /**
+     * DelayQueue constructor.
+     * @param $name
+     * @param $handler
+     */
+    public function __construct($name, $handler)
+    {
+        $this->name = $name;
+        $this->handler = $handler;
+    }
 
     /**
      * add
@@ -23,9 +34,9 @@ class DelayQueue
      * @param string $value
      * @return int
      */
-    public static function add($score, $value)
+    public function add($score, $value)
     {
-        return static::$handler->zAdd(static::$name, $score, $value);
+        return $this->handler->zAdd($this->name, $score, $value);
     }
 
     /**
@@ -36,9 +47,9 @@ class DelayQueue
      * @param bool $remove
      * @return array
      */
-    public static function get($e_score, $s_score = 0, $limit = 10, $remove = true)
+    public function get($e_score, $s_score = 0, $limit = 10, $remove = true)
     {
-        $list = static::$handler->zRangeByScore(static::$name, $s_score, $e_score, ['limit' => [0, $limit]]);
+        $list = $this->handler->zRangeByScore($this->name, $s_score, $e_score, ['limit' => [0, $limit]]);
         if ($remove)
         {
             foreach ($list as $key => $value)
@@ -46,7 +57,6 @@ class DelayQueue
                 if (!static::del($value)) unset($list[$key]);
             }
         }
-
         return $list;
     }
 
@@ -55,9 +65,9 @@ class DelayQueue
      * @param $value
      * @return int
      */
-    public static function del($value)
+    public function del($value)
     {
-        return static::$handler->zRem(static::$name, $value);
+        return $this->handler->zRem($this->name, $value);
     }
 }
 
