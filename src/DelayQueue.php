@@ -6,12 +6,6 @@ use Redis;
 class DelayQueue
 {
     /**
-     * name
-     * @var string|null
-     */
-    protected $name = null;
-
-    /**
      * Redis_Handler
      * @var Redis|null
      */
@@ -19,55 +13,78 @@ class DelayQueue
 
     /**
      * DelayQueue constructor.
-     * @param $name
      * @param $handler
      */
-    public function __construct($name, $handler)
+    public function __construct($handler)
     {
-        $this->name = $name;
         $this->handler = $handler;
     }
 
     /**
      * add
-     * @param int $score
+     * @param string $name
      * @param string $value
+     * @param int $time
      * @return int
      */
-    public function add($score, $value)
+    public function add($name, $value, $time = 0)
     {
-        return $this->handler->zAdd($this->name, $score, $value);
+        if (!$time) $time = time();
+        return $this->handler->zAdd($name, $time, $value);
     }
 
     /**
      * get
-     * @param int $e_score
-     * @param int $s_score
+     * @param string $name
+     * @param int $e_time
+     * @param int $s_time
      * @param int $limit
      * @param bool $remove
      * @return array
      */
-    public function get($e_score, $s_score = 0, $limit = 10, $remove = true)
+    public function get($name, $e_time = 0, $s_time = 0, $limit = 10, $remove = true)
     {
-        $list = $this->handler->zRangeByScore($this->name, $s_score, $e_score, ['limit' => [0, $limit]]);
+        if ($e_time) $e_time = time();
+        $list = $this->handler->zRangeByScore($name, $s_time, $e_time, ['limit' => [0, $limit]]);
         if ($remove)
         {
             foreach ($list as $key => $value)
             {
-                if (!static::del($value)) unset($list[$key]);
+                if (!$this->handler->zRem($name, $value)) unset($list[$key]);
             }
         }
         return $list;
     }
 
     /**
-     * del
-     * @param $value
-     * @return int
+     * push
+     * @param string $name
+     * @param string $value
+     * @param boolean $left
+     * @return bool|int
      */
-    public function del($value)
+    public function push($name, $value, $left = true)
     {
-        return $this->handler->zRem($this->name, $value);
+        if ($left)
+        {
+            return $this->handler->lPush($name, $value);
+        }
+        else
+        {
+            return $this->handler->rPush($name, $value);
+        }
+    }
+
+    /**
+     * pull
+     * @param string $name
+     * @param boolean $right
+     * @return bool|mixed
+     */
+    public function pull($name, $right = true)
+    {
+        $func = $right ? 'rPop' : 'lPop';
+        return call_user_func([$this->handler, $func], $name);
     }
 }
 

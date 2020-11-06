@@ -3,7 +3,16 @@
 require '../src/DelayQueue.php';
 
 //创建订单加入延迟队列逻辑
+function a($a,...$b)
+{
+    var_dump($a,$b);
+}
 
+
+$b = [2,3];
+a(1,...$b);
+
+die();
 //1.加载Redis
 $redis = new Redis();
 $redis->connect('127.0.0.1', 6379);
