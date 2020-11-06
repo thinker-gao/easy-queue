@@ -1,8 +1,8 @@
 {
-  "name": "easy-delay-queue/easy-delay-queue",
-  "description": "easy-delay-queue, simple delay queue",
+  "name": "easy-queue/easy-queue",
+  "description": "easy-queue, simple redis queue",
   "keywords": [
-    "easy-delay-queue"
+    "easy-queue"
   ],
   "type": "library",
   "license": "MIT",
@@ -21,7 +21,7 @@
   },
   "autoload": {
     "psr-4": {
-      "EasyDelayQueue\\": "src/"
+      "EasyQueue\\": "src/"
     }
   }
 }

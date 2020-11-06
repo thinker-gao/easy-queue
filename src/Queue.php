@@ -1,9 +1,9 @@
 <?php
-namespace EasyDelayQueue;
+namespace EasyQueue;
 
 use Redis;
 
-class DelayQueue
+class Queue
 {
     /**
      * Redis_Handler
@@ -65,14 +65,8 @@ class DelayQueue
      */
     public function push($name, $value, $left = true)
     {
-        if ($left)
-        {
-            return $this->handler->lPush($name, $value);
-        }
-        else
-        {
-            return $this->handler->rPush($name, $value);
-        }
+        $func = $left ? 'lPush' : 'rPush';
+        return call_user_func([$this->handler, $func], $name, $value);
     }
 
     /**
