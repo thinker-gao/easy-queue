@@ -1,7 +1,7 @@
-<p><h4>EasyDelayQueue简单易用的PHP-Redis延迟队列</h4></p>
+<p><h4>EasyQueue简单易用PHP-Redis队列,支持延迟队列</h4></p>
 
 ## <h4 style="text-align:left">  队列介绍 </h4>
-<p>基于Redis有序集合实现的Redis延迟队列，添加/删除/查找的复杂度都是 O(1)，每个队列中可存储40多亿元素。具体实现请阅读我发布的文章：<a href="https://www.gaojiufeng.cn/?id=516">直达机票</a></p>
+<p>基于Redis有序集合实现的Redis延迟队列，添加/删除/查找的复杂度都是 O(1)，每个队列中可存储40多亿元素。</p>
 
 ## <h4 style="text-align:left">  环境依赖 </h4>
 ~~~
@@ -11,7 +11,7 @@
 ## <h4>  Composer安装 </h4>
 
 ~~~
-  composer require easy-delay-queue/easy-delay-queue
+  composer require easy-queue/easy-queue
 ~~~
 
 ## <h5>【A】. 快速入门->生产者 </h5>
@@ -20,14 +20,21 @@
 $redis = new Redis();
 $redis->connect('127.0.0.1', 6379);
 
-//2.设置延迟队列
-DelayQueue::$name = 'order';
-DelayQueue::$handler = $redis;
+//2.设置队列
+$queue = new \EasyQueue\Queue($redis);
 
 //3.投递队列
-$time = time() + 30; //下单成功30秒需要处理
+$name = 'order'; //队列名称
+$time = time() + 120; //下单成功30秒需要处理
 $orderId = uniqid();
-DelayQueue::add($time, $orderId);
+if ($queue->add($name, $orderId, $time))
+{
+    echo 'success' . PHP_EOL;
+}
+else
+{
+    echo 'failed' . PHP_EOL;
+}
 ~~~
 
 ## <h5>【B】. 快速入门->消费者 </h5>
@@ -36,20 +43,15 @@ DelayQueue::add($time, $orderId);
 $redis = new Redis();
 $redis->connect('127.0.0.1', 6379);
 
-//2.设置延迟队列
-DelayQueue::$name = 'order';
-DelayQueue::$handler = $redis;
+//2.设置队列
+$queue = new \EasyQueue\Queue($redis);
 
-//3.查询时间小于当前时间的队列数据,默认输出10条
-$time = time();
-$list = DelayQueue::get($time);
-foreach ($list as $value)
+//3.消费队列
+$name = 'order';
+$res = $queue->get($name);
+if ($res)
 {
-    //输出信息
-    echo "订单Id:" . $value . PHP_EOL;
-
-    //发送消息给订单关联的用户(伪代码)
-    //sendMsgToUserByOrderId($value);
+    var_dump($res);
 }
 ~~~
 
