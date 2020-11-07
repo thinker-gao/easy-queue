@@ -12,7 +12,7 @@ class Queue
     protected $handler = null;
 
     /**
-     * DelayQueue constructor.
+     * constructor.
      * @param $handler
      */
     public function __construct($handler)
@@ -42,9 +42,9 @@ class Queue
      * @param bool $remove
      * @return array
      */
-    public function get($name, $e_time = 0, $s_time = 0, $limit = 10, $remove = true)
+    public function get($name, $e_time = 0, $s_time = 0, $limit = 1, $remove = true)
     {
-        if ($e_time) $e_time = time();
+        if (!$e_time) $e_time = time();
         $list = $this->handler->zRangeByScore($name, $s_time, $e_time, ['limit' => [0, $limit]]);
         if ($remove)
         {
@@ -53,7 +53,22 @@ class Queue
                 if (!$this->handler->zRem($name, $value)) unset($list[$key]);
             }
         }
-        return $list;
+        return count($list) == 1 ? $list['0'] : $list;
+    }
+
+    /**
+     * @return string
+     */
+    protected function valueIdentify()
+    {
+        static $i = 0;
+        $i or $i = mt_rand(1, 0x7FFFFF);
+        return sprintf("%08x%06x%04x%06x",
+            time() & 0xFFFFFFFF,
+            crc32(substr((string)gethostname(), 0, 256)) >> 8 & 0xFFFFFF,
+            getmypid() & 0xFFFF,
+            $i = $i > 0xFFFFFE ? 1 : $i + 1
+        );
     }
 
     /**
