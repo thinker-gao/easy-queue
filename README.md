@@ -6,6 +6,7 @@
 ## <h4 style="text-align:left">  环境依赖 </h4>
 ~~~
 "php": ">=5.4"
+"ext-redis": ">=2.0"
 ~~~
 
 ## <h4>  Composer安装 </h4>
